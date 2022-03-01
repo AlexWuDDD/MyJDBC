@@ -3,6 +3,7 @@ package com.alex.util;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
 
@@ -47,6 +48,36 @@ public class JDBCUtils {
      */
 
     public static void closeResource(Connection conn, Statement ps){
+        try {
+            if(ps != null){
+                ps.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try{
+            if(conn != null){
+                conn.close();
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void closeResource(Connection conn, Statement ps, ResultSet rs){
+        
+        try{
+            if(rs != null){
+                rs.close();
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        
         try {
             if(ps != null){
                 ps.close();

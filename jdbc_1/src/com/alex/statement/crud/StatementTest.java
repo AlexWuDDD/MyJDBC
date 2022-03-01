@@ -1,7 +1,5 @@
 package com.alex.statement.crud;
 
-
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -21,47 +19,47 @@ public class StatementTest {
 	@Test
 	public void testLogin() {
 
-    int i = 2;
+        int i = 2;
 
-    String userData1 = "AA";
-    String passwordData1 = "123456";
+        String userData1 = "AA";
+        String passwordData1 = "123456";
 
-    String userData2 = "1' OR";
-    String passwordData2 = "=1 OR '1' = '1";
+        String userData2 = "1' OR";
+        String passwordData2 = "=1 OR '1' = '1";
 
-    String user;
-    String password;
+        String user;
+        String password;
 
-    switch(i){
-      case 1:
-        user = userData1;
-        password = passwordData1;
-        break;
-      case 2: //SQL注入
-        user = userData2;
-        password = passwordData2;
-        break;
-      /**
-       * SELECT user, password 
-         FROM user_table 
-         WHERE user = '1' OR' AND password = '=1 OR '1' = '1'
-       */
-      default:
-        user = "";
-        password = "";
-        break;
+        switch(i){
+        case 1:
+            user = userData1;
+            password = passwordData1;
+            break;
+        case 2: //SQL注入
+            user = userData2;
+            password = passwordData2;
+            break;
+        /**
+         * SELECT user, password 
+             FROM user_table 
+            WHERE user = '1' OR' AND password = '=1 OR '1' = '1'
+        */
+        default:
+            user = "";
+            password = "";
+            break;
+        }
+
+        String sql = "SELECT user, password FROM user_table WHERE user = '"+ user +"' AND password = '"+ password +"';";
+        System.out.print(sql);
+        User returnUser = get(sql, User.class);
+        if(returnUser != null){
+        System.out.println("登录成功");
+        }
+        else{
+        System.out.println("用户名不存在或密码错误");
+        }
     }
-
-    String sql = "SELECT user, password FROM user_table WHERE user = '"+ user +"' AND password = '"+ password +"';";
-    System.out.print(sql);
-    User returnUser = get(sql, User.class);
-    if(returnUser != null){
-      System.out.println("登录成功");
-    }
-    else{
-      System.out.println("用户名不存在或密码错误");
-    }
-	}
 
 	// 使用Statement实现对数据表的查询操作
 	public <T> T get(String sql, Class<T> clazz) {
